@@ -9,8 +9,29 @@ import telepot
 import board
 import adafruit_dht
 import psutil
+import requests
+import os
 
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
+
+def update_files():
+    main = "https://github.com/pixel746/kkMonitorAgent/raw/master/main.py"
+    modules = "https://github.com/pixel746/kkMonitorAgent/raw/master/modules.py"
+
+    directory = os.getcwd()
+
+    filename = os.path.join(directory, 'main.py')
+    r = requests.get(main, auth=('pixel746', 'Oelof@900624'))
+    with open(filename, 'w') as f:
+        f.write(r.content)
+
+    filename = os.path.join(directory, 'modules.py')
+    r = requests.get(modules, auth=('pixel746', 'Oelof@900624'))
+    with open(filename, 'w') as f:
+        f.write(r.content)
+
+
+
 
 def get_serial():
     # Extract serial from cpuinfo file
