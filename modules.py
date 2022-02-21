@@ -23,12 +23,12 @@ def update_files():
     filename = os.path.join(directory, 'main.py')
     r = requests.get(main, auth=('pixel746', 'Oelof@900624'))
     with open(filename, 'w') as f:
-        f.write(r.content)
+        f.write(r.text)
 
     filename = os.path.join(directory, 'modules.py')
     r = requests.get(modules, auth=('pixel746', 'Oelof@900624'))
     with open(filename, 'w') as f:
-        f.write(r.content)
+        f.write(r.text)
 
 
 
