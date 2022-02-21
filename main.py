@@ -6,7 +6,7 @@ from datetime import datetime
 """
 The following block of code does certain health checks before starting with the temperature and humidity uploads.
 """
-
+update_files()
 # Determine identity by serial.
 serial = get_serial()
 

@@ -15,8 +15,8 @@ import os
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
 
 def update_files():
-    main = "https://github.com/pixel746/kkMonitorAgent/raw/master/main.py"
-    modules = "https://github.com/pixel746/kkMonitorAgent/raw/master/modules.py"
+    main = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/main.py"
+    modules = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/modules.py"
 
     directory = os.getcwd()
 
