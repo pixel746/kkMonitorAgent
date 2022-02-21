@@ -143,7 +143,7 @@ def upload_temps(dt, c):
             sleep(3)
             c += 1
             upload_temps(dt, c)
-        elif temp == 25.0:
+        elif temp == 0.0:
             logger.error(f"Error 25 on sensor {sensor}")
             sleep(3)
             c += 1
