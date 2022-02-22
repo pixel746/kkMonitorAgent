@@ -16,7 +16,7 @@ serial = get_serial()
 
 # Check Internet and network.
 while True:
-    if ping('192.168.5.149'):
+    if ping('192.168.25.149'):
         break
     else:
         print('No network available.')
