@@ -10,21 +10,14 @@ try:
     update_files()
 except Exception as e:
     logger.error(str(e))
+
 # Determine identity by serial.
 serial = get_serial()
 
 # Check Internet and network.
 while True:
-    if ping('192.168.1.1'):
-        if ping('1.1.1.1'):
-            if ping('google.com'):
-                break
-            else:
-                print('DNS resolution not available')
-                logger.warning('DNS resolution not available')
-        else:
-            print('Internet not available.')
-            logger.warning('No internet connectivity.')
+    if ping('192.168.5.149'):
+        break
     else:
         print('No network available.')
         logger.error('No network connectivity.')
