@@ -196,7 +196,7 @@ def upload_humidity(dt, c):
     if _:
         for sensor in sensors:
             try:
-                s = adafruit_dht.DHT11(board.pin.Pin(sensor['gpio']))
+                s = adafruit_dht.DHT22(board.pin.Pin(sensor['gpio']))
                 if s.temperature > 0:
                     sens = get_serial() + str(sensor['gpio'])
                     do_sql(f"INSERT INTO kkSensorData (sensor, humidity, dt) VALUES ('{sens}', {s.humidity}, '{dt}')")
