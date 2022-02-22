@@ -15,8 +15,13 @@ import os
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
 
 def update_files():
-    main = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/main.py?token=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"
-    modules = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/modules.py?token=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"
+
+    sql = "SELECT github_token FROM kkPIDetails ORDER BY id DESC LIMIT 1"
+    _, token = get_sql(sql)
+    print(token[0]['github_token'])
+
+    main = f"https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/main.py?token={token[0]['github_token']}"
+    modules = f"https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/modules.py?token={token[0]['github_token']}"
 
     directory = os.getcwd()
 
