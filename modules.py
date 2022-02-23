@@ -201,7 +201,7 @@ def upload_humidity(dt, c):
         if proc.name() == 'libgpiod_pulsein' or proc.name() == 'libgpiod_pulsei':
             proc.kill()
 
-    _, sensors = get_sql(f"SElECT gpio FROM kkHumidityMappings WHERE serial='{get_serial()}'")
+    _, sensors = get_sql(f"SElECT gpio, name FROM kkHumidityMappings WHERE serial='{get_serial()}'")
     if _:
         for sensor in sensors:
             try:
@@ -213,7 +213,7 @@ def upload_humidity(dt, c):
                         f"INSERT INTO kkSensorDataArchive (sensor, humidity, dt) VALUES ('{sens}', {s.humidity}, '{dt}')")
             except Exception as e:
                 logger.error(e)
-                send_msg(str(e) + f" on monitor with serial {serial_to_sensor_h(sensor)}")
+                send_msg(str(e) + f" on monitor with serial {sensor['name']}")
     else:
         logger.error("Can\'t retrieve humidity sensors from DB.")
         send_msg(
