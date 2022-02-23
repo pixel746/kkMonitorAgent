@@ -14,14 +14,10 @@ import os
 
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
 
+
 def update_files():
-
-    sql = "SELECT github_token FROM kkPIDetails ORDER BY id DESC LIMIT 1"
-    _, token = get_sql(sql)
-    print(token[0]['github_token'])
-
-    main = f"https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/main.py?token={token[0]['github_token']}"
-    modules = f"https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/modules.py?token={token[0]['github_token']}"
+    main = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/main.py"
+    modules = "https://raw.githubusercontent.com/pixel746/kkMonitorAgent/master/modules.py"
 
     directory = os.getcwd()
 
@@ -36,6 +32,12 @@ def update_files():
         f.write(r.text)
 
 
+def serial_to_sensor_h(serial):
+    sql = f"SELECT name FROM kkHumidityMappings WHERE sensor ='{serial}'"
+    _, name = get_sql(sql)
+
+    if _:
+        return name[0]['name']
 
 
 def get_serial():
@@ -57,6 +59,7 @@ def get_serial():
 def send_msg(msg):
     bot = telepot.Bot('1780011684:AAE30i1cW0ia-0gzhk9t_T0IFKXhw3kyZFs')
     bot.sendMessage('-551500159', msg)
+
 
 def do_sql(query):
     cnx = mysql.connector.connect(user="root", password="help6123", host="192.168.25.149", database="kkDatabase")
@@ -182,7 +185,8 @@ def upload_temps(dt, c):
             upload_temps(dt, c)
         else:
             query = "INSERT INTO kkSensorData (sensor, temp, dt) VALUES ('{}', {}, '{}')".format(sensor, temp, dt)
-            query2 = "INSERT INTO kkSensorDataArchive (sensor, temp, dt) VALUES ('{}', {}, '{}')".format(sensor, temp, dt)
+            query2 = "INSERT INTO kkSensorDataArchive (sensor, temp, dt) VALUES ('{}', {}, '{}')".format(sensor, temp,
+                                                                                                         dt)
             try:
                 _, x = do_sql(query2)
                 _, x = do_sql(query)
@@ -205,11 +209,13 @@ def upload_humidity(dt, c):
                 if s.temperature > 0:
                     sens = get_serial() + str(sensor['gpio'])
                     do_sql(f"INSERT INTO kkSensorData (sensor, humidity, dt) VALUES ('{sens}', {s.humidity}, '{dt}')")
-                    do_sql(f"INSERT INTO kkSensorDataArchive (sensor, humidity, dt) VALUES ('{sens}', {s.humidity}, '{dt}')")
+                    do_sql(
+                        f"INSERT INTO kkSensorDataArchive (sensor, humidity, dt) VALUES ('{sens}', {s.humidity}, '{dt}')")
             except Exception as e:
                 logger.error(e)
-                send_msg(str(e) + f" on monitor with serial {get_serial()}")
+                send_msg(str(e) + f" on monitor with serial {serial_to_sensor_h(sensor)}")
     else:
         logger.error("Can\'t retrieve humidity sensors from DB.")
-        send_msg(f"Can\'t retrieve humidity sensors for monitor with serial {get_serial()} from DB.")
+        send_msg(
+            f"Can\'t retrieve humidity sensors for monitor with serial {get_serial()} from DB.")
     return True
