@@ -27,9 +27,10 @@ while True:
 if check_sensors():
     pass
 else:
-    print('Can\'t match sensors from database.')
-    logger.error('Cant match sensors from database. Some sensors offline/changes.')
-    send_msg(f'Cant match sensors from database. Some sensors offline/changed on monitor with serial {serial}.')
+    print('Can\'t match sensors from database. Recovering...')
+    logger.error('Cant match sensors from database. Some sensors offline/changes. Recovering...')
+    send_msg(f'Cant match sensors from database. Some sensors offline/changed on monitor with serial {serial}. Recovering...')
+    do_reset_reboot()
 
 # Send HB
 logger.info('All checks passed.')

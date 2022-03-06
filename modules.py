@@ -4,13 +4,14 @@ import mysql.connector
 from pi1wire import Pi1Wire
 import logzero
 from logzero import logger
-from time import sleep, time
+from time import sleep
 import telepot
 import board
 import adafruit_dht
 import psutil
 import requests
 import os
+import RPi.GPIO as GPIO
 
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
 
@@ -50,7 +51,8 @@ def get_serial():
                 serial = line[10:26]
         f.close()
         return serial
-    except:
+    except Exception as e:
+        print(e)
         logger.error('Could not determine monitor serial.')
         send_msg('Could not determine monitor serial.')
         return False
@@ -196,7 +198,7 @@ def upload_temps(dt, c):
     return True
 
 
-def upload_humidity(dt, c):
+def upload_humidity(dt):
     for proc in psutil.process_iter():
         if proc.name() == 'libgpiod_pulsein' or proc.name() == 'libgpiod_pulsei':
             proc.kill()
@@ -219,3 +221,18 @@ def upload_humidity(dt, c):
         send_msg(
             f"Can\'t retrieve humidity sensors for monitor with serial {get_serial()} from DB.")
     return True
+
+
+def do_reset_reboot():
+    # Power off sensor pins
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(22, GPIO.OUT)
+    GPIO.output(22, GPIO.LOW)
+    # Wait 5 seconds
+    sleep(5)
+    # Power on sensor pins
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(22, GPIO.OUT)
+    GPIO.output(22, GPIO.HIGH)
+    # Reboot monitor
+    os.system("sudo reboot")
