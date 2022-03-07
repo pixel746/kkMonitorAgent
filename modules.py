@@ -148,9 +148,6 @@ def check_sensors():
 
 
 def upload_temps(dt):
-    if c > 10:
-        logger.error(f'Error count on temperature sensors too high - please investigate!')
-        return False
     try:
         sens = []
         sensors = Pi1Wire().find_all_sensors()
