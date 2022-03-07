@@ -147,7 +147,7 @@ def check_sensors():
     return True
 
 
-def upload_temps(dt, c):
+def upload_temps(dt):
     if c > 10:
         logger.error(f'Error count on temperature sensors too high - please investigate!')
         return False

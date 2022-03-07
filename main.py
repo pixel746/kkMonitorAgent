@@ -37,12 +37,12 @@ logger.info('All checks passed.')
 
 # Get details
 dt = datetime.now()
-if upload_temps(dt, 0):
+if upload_temps(dt):
     pass
 else:
     logger.error('Could not upload temperatures, please investigate.')
     send_msg(f'Could not upload temperatures, please investigate on monitor with serial {serial}.')
-if upload_humidity(dt, 0):
+if upload_humidity(dt):
     pass
 else:
     logger.error('Could not upload temperatures, please investigate.')
