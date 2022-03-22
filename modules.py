@@ -130,7 +130,8 @@ def check_sensors():
                     logger.error(f"Sensor {s.mac_address} has reading of 0. Recovering...")
                     do_reset_reboot()
         else:
-            logger.error("No sensors detected.")
+            logger.error("No sensors detected. Recovering...")
+            do_reset_reboot()
             return False
         print(sens)
     except Exception as e:
