@@ -21,7 +21,7 @@ while True:
     else:
         print('No network available.')
         logger.error('No network connectivity.')
-    time.sleep(30)
+    time.sleep(300)
 
 # Check sensors.
 if check_sensors():
