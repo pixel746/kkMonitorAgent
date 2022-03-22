@@ -127,8 +127,8 @@ def check_sensors():
                 if Pi1Wire().find(s.mac_address).get_temperature() > 0.0:
                     sens.append(s.mac_address)
                 else:
-                    logger.error(f"Sensor {s.mac_address} has reading of 0.")
-                    pass
+                    logger.error(f"Sensor {s.mac_address} has reading of 0. Recovering...")
+                    do_reset_reboot()
         else:
             logger.error("No sensors detected.")
             return False
