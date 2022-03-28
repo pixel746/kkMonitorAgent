@@ -142,7 +142,7 @@ def check_sensors():
         if pisensor['sensor'] in sens:
             pass
         else:
-            logger.error(f"Sensor {pisensor} in not available.")
+            logger.error(f"Sensor {pisensor} is not available. Recovering...")
             print(f'sensor {pisensor} is not available.')
             do_reset_reboot()
 
@@ -158,10 +158,12 @@ def upload_temps(dt):
                 if Pi1Wire().find(s.mac_address).get_temperature() > 0.0:
                     sens.append(s.mac_address)
                 else:
-                    logger.error(f'Sensor {s} has no reading.')
+                    logger.error(f'Sensor {s} has no reading. Recovering...')
+                    do_reset_reboot()
                     return False
         else:
-            logger.error('No sensors detected.')
+            logger.error('No sensors detected. Recovering...')
+            do_reset_reboot()
             return False
     except Exception as e:
         logger.error(e)
