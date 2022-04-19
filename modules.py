@@ -124,7 +124,7 @@ def check_sensors():
         sensors = Pi1Wire().find_all_sensors()
         if len(sensors) > 0:
             for s in sensors:
-                if Pi1Wire().find(s.mac_address).get_temperature() > 0.0:
+                if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
                     sens.append(s.mac_address)
                 else:
                     logger.error(f"Sensor {s.mac_address} has reading of 0. Recovering...")
