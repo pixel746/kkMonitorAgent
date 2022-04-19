@@ -124,11 +124,11 @@ def check_sensors():
         sensors = Pi1Wire().find_all_sensors()
         if len(sensors) > 0:
             for s in sensors:
-                if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
-                    sens.append(s.mac_address)
-                else:
-                    print(Pi1Wire().find(s.mac_address).get_temperature())
-                    logger.error(f"Sensor {s.mac_address} has reading of {Pi1Wire().find(s.mac_address).get_temperature()}. Recovering...")
+                #if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
+                sens.append(s.mac_address)
+                #else:
+                #    print(Pi1Wire().find(s.mac_address).get_temperature())
+                #    logger.error(f"Sensor {s.mac_address} has reading of {Pi1Wire().find(s.mac_address).get_temperature()}. Recovering...")
                     #do_reset_reboot()
         else:
             logger.error("No sensors detected. Recovering...")
@@ -156,12 +156,12 @@ def upload_temps(dt):
         sensors = Pi1Wire().find_all_sensors()
         if len(sensors) > 0:
             for s in sensors:
-                if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
-                    sens.append(s.mac_address)
-                else:
-                    logger.error(f'Sensor {s} has no reading. Recovering...')
-                    do_reset_reboot()
-                    return False
+                #if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
+                sens.append(s.mac_address)
+                #else:
+                #    logger.error(f'Sensor {s} has no reading. Recovering...')
+                #    do_reset_reboot()
+                #    return False
         else:
             logger.error('No sensors detected. Recovering...')
             do_reset_reboot()
