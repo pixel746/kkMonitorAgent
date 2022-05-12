@@ -124,12 +124,12 @@ def check_sensors():
         sensors = Pi1Wire().find_all_sensors()
         if len(sensors) > 0:
             for s in sensors:
-                #if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
+                # if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
                 sens.append(s.mac_address)
-                #else:
+                # else:
                 #    print(Pi1Wire().find(s.mac_address).get_temperature())
                 #    logger.error(f"Sensor {s.mac_address} has reading of {Pi1Wire().find(s.mac_address).get_temperature()}. Recovering...")
-                    #do_reset_reboot()
+                # do_reset_reboot()
         else:
             logger.error("No sensors detected. Recovering...")
             do_reset_reboot()
@@ -156,9 +156,9 @@ def upload_temps(dt):
         sensors = Pi1Wire().find_all_sensors()
         if len(sensors) > 0:
             for s in sensors:
-                #if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
+                # if Pi1Wire().find(s.mac_address).get_temperature() != 0.0:
                 sens.append(s.mac_address)
-                #else:
+                # else:
                 #    logger.error(f'Sensor {s} has no reading. Recovering...')
                 #    do_reset_reboot()
                 #    return False
@@ -175,18 +175,21 @@ def upload_temps(dt):
         if temp == 85.0:
             while temp == 85.0:
                 temp = Pi1Wire().find(sensor).get_temperature()
-
             logger.error(f"Error 85 on probe {sensor}")
             sleep(3)
-            c += 1
-            upload_temps(dt, c)
+            upload_temps(dt)
         elif temp == 0.0:
             while temp == 0.0:
                 temp = Pi1Wire().find(sensor).get_temperature()
             logger.error(f"Error 0 on sensor {sensor}")
             sleep(3)
-            c += 1
-            upload_temps(dt, c)
+            upload_temps(dt)
+        elif temp == 25.0:
+            while temp == 25.0:
+                temp = Pi1Wire().find(sensor).get_temperature()
+                logger.error(f"Error 85 on probe {sensor}")
+                sleep(3)
+                upload_temps(dt)
         else:
             query = "INSERT INTO kkSensorData (sensor, temp, dt) VALUES ('{}', {}, '{}')".format(sensor, temp, dt)
             query2 = "INSERT INTO kkSensorDataArchive (sensor, temp, dt) VALUES ('{}', {}, '{}')".format(sensor, temp,
