@@ -240,4 +240,7 @@ def do_reset_reboot():
     GPIO.setup(22, GPIO.OUT)
     GPIO.output(22, GPIO.HIGH)
     # Reboot monitor
+    print("Rebooting")
     os.system("sudo reboot")
+
+
