@@ -145,7 +145,11 @@ def check_sensors():
         else:
             logger.error(f"Sensor {pisensor} is not available. Recovering...")
             print(f'sensor {pisensor} is not available.')
-            do_reset_reboot()
+            #do_reset_reboot()
+
+    if not sens:
+        do_reset_reboot()
+        return False
 
     return True
 
