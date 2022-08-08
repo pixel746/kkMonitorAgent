@@ -120,7 +120,7 @@ def check_sensors():
         print(e)
         return False
 
-    # Check serials
+    # Check serials of sensors
     try:
         sens = []
         sensors = Pi1Wire().find_all_sensors()
