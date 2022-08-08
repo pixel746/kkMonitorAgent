@@ -1,17 +1,18 @@
+import os
 import platform  # For getting the operating system name
 import subprocess  # For executing a shell command
-import mysql.connector
-from pi1wire import Pi1Wire
-import logzero
-from logzero import logger
 from time import sleep
-import telepot
-import board
+
+import RPi.GPIO as GPIO
 import adafruit_dht
+import board
+import logzero
+import mysql.connector
 import psutil
 import requests
-import os
-import RPi.GPIO as GPIO
+import telepot
+from logzero import logger
+from pi1wire import Pi1Wire
 
 logzero.logfile("/home/pi/kkmonitor.log", maxBytes=1e6, backupCount=3)
 
@@ -24,6 +25,7 @@ def update_files():
 
     filename = os.path.join(directory, 'main.py')
     r = requests.get(main, auth=('pixel746', 'Oelof@900624'))
+    #r.
     with open(filename, 'w') as f:
         f.write(r.text)
 
@@ -145,7 +147,7 @@ def check_sensors():
         else:
             logger.error(f"Sensor {pisensor} is not available. Recovering...")
             print(f'sensor {pisensor} is not available.')
-            #do_reset_reboot()
+            do_reset_reboot()
 
     if not sens:
         do_reset_reboot()
