@@ -5,11 +5,12 @@ from datetime import datetime
 
 """
 The following block of code does certain health checks before starting with the temperature and humidity uploads.
-"""
 try:
     update_files()
 except Exception as e:
     logger.error(str(e))
+"""
+
 
 # Determine identity by serial.
 serial = get_serial()
